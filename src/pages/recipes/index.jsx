@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 export default function Recipes() {
 
     const [recipes, setRecipes] = useState([]);
+    const [recipeInput, setRecipeInput] = useState("");
 
     const searchRecipes = () => {
         // prepare url
         const url = new URL('https://api.spoonacular.com/recipes/complexSearch');
-        url.searchParams.append('apiKey', 'd7ee1bf646464cd1b530677aa9b10bae');
+        url.searchParams.append('apiKey', process.env.REACT_APP_SPOONACULAR_API_KEY);
+        url.searchParams.append('query', setRecipeInput);
         // fetch recipes
         // console.log(data);
         fetch(url).then((response) => response.json()).then((data) => {
@@ -26,9 +28,9 @@ export default function Recipes() {
 
     return (
         <Container sx={{ my: '2rem' }} s>
-            <TextField fullWidth id="outlined-basic" label="Enter a keyword to search recipes and hit Enter" variant="outlined" />
+            <TextField fullWidth id="outlined-basic" label="Enter a keyword to search recipes and hit Enter" variant="outlined" value={recipeInput} onChange={(event) => setRecipeInput(event.target.value)} onKeyDown={event => event.key == 'Enter' && searchRecipes()} />
             <Grid sx={{ mt: '1rem' }} container spacing={3}>
-               {recipes.map((recipe) =>  <RecipeItem key= {recipe.id} title={recipe.title} image={recipe.image} /> )}
+                {recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} />)}
             </Grid>
         </Container>
     );
