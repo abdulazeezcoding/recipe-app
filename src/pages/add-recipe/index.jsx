@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../../components/navbar";
 import { AppBar, Toolbar, Typography, Button, Container, TextField } from "@mui/material";
+import {Link} from "react";
 
 export default function AddRecipePage() {
   return (
@@ -10,7 +10,7 @@ export default function AddRecipePage() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Recipe App
           </Typography>
-          <Button color="inherit">ADD NEW RECIPE</Button>
+          <Link to='/add-recipe'> <Button color="inherit">ADD NEW RECIPE</Button></Link>
         </Toolbar>
       </AppBar>
       <Container sx={{textAlign: 'center',}}>
