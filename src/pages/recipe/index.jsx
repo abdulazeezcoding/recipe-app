@@ -15,7 +15,7 @@ return fetch(url).then(response => response.json());
 
 export default function Recipe() {
     const {id} = useParams();
-const {data: recipe, isLoading} = useSWR(`https://api.spoonacular.com/recipes/${id}/information`, getRecipe)
+const {data: recipe, isLoading} = useSWR(`http://localhost:4000/recipes/${id}/`, getRecipe)
 console.log(recipe, isLoading)
 
     return (
