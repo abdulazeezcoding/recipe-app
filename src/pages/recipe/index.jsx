@@ -3,6 +3,7 @@ import {Container} from "@mui/material";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import spinner from "../../assets/images/infinite-spinner.svg"
+import Navbar from "../../components/navbar";
 
 
 const getRecipe = (...args) => {
@@ -15,17 +16,17 @@ return fetch(url).then(response => response.json());
 
 export default function Recipe() {
     const {id} = useParams();
-const {data: recipe, isLoading} = useSWR(`http://localhost:4000/recipes/${id}/`, getRecipe)
+const {data: recipe, isLoading} = useSWR(`${process.env.REACT_APP_RECIPE_API}/recipes/${id}/`, getRecipe)
 console.log(recipe, isLoading)
-
     return (
         <>
+        <Navbar />
         {
             isLoading ? <img src={spinner} /> : (
                 <Container>
                     <h1>{recipe.title}</h1>
-                    {/* <p>{recipe.summary}</p> */}
-                    <div dangerouslySetInnerHTML={{ __html:recipe.summary}}/>
+                    <div>{recipe.description}</div>
+                    <img src={`https://savefiles.org/${recipe.image}?shareable_link=144`} alt={recipe.title} />
                 </Container>
             )
         }

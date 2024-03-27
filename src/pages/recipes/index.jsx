@@ -3,6 +3,7 @@ import RecipeItem from "../../components/recipe-item/index.jsx";
 import { useEffect, useState } from "react";
 import noRecipes from "../../assets/images/undraw_no_data_re_kwbl.svg"
 import spinner from "../../assets/images/infinite-spinner.svg"
+import Navbar from "../../components/navbar/index.jsx";
 
 export default function Recipes() {
 
@@ -16,7 +17,7 @@ export default function Recipes() {
         setLoading(true);
         // prepare url
         // const url = new URL('https://api.spoonacular.com/recipes/complexSearch');
-        const url = new URL(`http://localhost:4000/recipes`);
+        const url = new URL(`${process.env.REACT_APP_RECIPE_API}/recipes`);
         url.searchParams.append('apiKey', process.env.REACT_APP_SPOONACULAR_API_KEY);
         url.searchParams.append('query', recipeInput);
         // fetch recipes
@@ -34,6 +35,8 @@ export default function Recipes() {
     useEffect(searchRecipes, [recipeInput]);
 
     return (
+        <>
+        <Navbar />
         <Container sx={{ my: '2rem' }} s>
             <TextField fullWidth id="outlined-basic" label="Enter a keyword to search recipes and hit Enter" variant="outlined" value={recipeInput}
                 onChange={(event) => setRecipeInput(event.target.value)}
@@ -41,12 +44,14 @@ export default function Recipes() {
             <Grid sx={{ mt: '1rem' }} container spacing={3}> 
                 {loading ? (<Container sx={{display: 'flex', justifyContent: 'center' }}> <img src={spinner} width="25%" />
                 </Container> ) :
-                recipes.length > 0 ? recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} id={recipe.id} />) : (
+                recipes.length > 0 ? recipes.map((recipe) => <RecipeItem key={recipe._id} title={recipe.title} image={recipe.image} id={recipe._id} />) : (
                     <Container sx={{display:'flex', justifyContent:'center', marginTop: 10}} >
                         <img src={noRecipes} width="25%" />
                     </Container>
                 )}
             </Grid>
         </Container>
+        </>
+
     );
 }
